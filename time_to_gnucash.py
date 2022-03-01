@@ -1,4 +1,4 @@
-#/usr/bin/python3
+#!/usr/bin/python3
 
 import csv
 import sys
@@ -91,9 +91,9 @@ for r in filereader:
 
     # populate an output row
     datere = re.compile('(\d+/\d+/\d+)')
-    #entrydate = datere.search(tIn).group(1)
+    entrydate = datere.search(tIn).group(1)
     #print('entrydate:  ',entrydate)
-    fdict['date_opened'] = entrydate
+    fdict['date'] = entrydate
     fdict['action']    = 'hours'
     fdict['id']       = invoiceNUM
     fdict['owner_id'] = customerNUM   # beuss gilbert hack
