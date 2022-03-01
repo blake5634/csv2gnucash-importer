@@ -2,13 +2,14 @@
 
 import csv
 import sys
+import regex as re
 
 ars = sys.argv
 
 if len(ars) != 4:
     print('Usage time_to_gnucash.py  FILENAME  CUSTOMER_NUM  INV_NUM')
     print('Exampe:    >time_to_gnucash   G_Job.csv   21     127')
-    print('     G_Job.csv matches export format for Hours Tracker Android App (cribasoft LLC)').
+    print('     G_Job.csv matches export format for Hours Tracker Android App (cribasoft LLC)')
     print('       (numbers are gnucash customer and invoice numbers respectively')
     quit()
     
@@ -89,6 +90,11 @@ for r in filereader:
         fdict[f] = ''
 
     # populate an output row
+    datere = re.compile('(\d+/\d+/\d+)')
+    #entrydate = datere.search(tIn).group(1)
+    #print('entrydate:  ',entrydate)
+    fdict['date_opened'] = entrydate
+    fdict['action']    = 'hours'
     fdict['id']       = invoiceNUM
     fdict['owner_id'] = customerNUM   # beuss gilbert hack
     fdict['desc']     = Desc
