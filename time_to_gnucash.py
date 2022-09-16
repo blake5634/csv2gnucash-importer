@@ -3,7 +3,11 @@
 import csv
 import sys
 import regex as re
+''' A program to convert time record exports from phone-based time-keeper
+to a format that can be  imported to Gnucash "import invoice" function.
+Currently works with Android Hours Tracker App.
 
+'''
 ars = sys.argv
 
 if len(ars) != 4:
@@ -71,7 +75,7 @@ FIRSTROWFLAG = True
 nrows = 0
 for r in filereader: 
     nrows += 1
-    job = r[0]     ##   customize for different input file formats
+    job = r[0]     ##   customize here for different input file formats
     tIn = r[1]
     tOut = r[2]
     Dur = r[3]
@@ -93,10 +97,10 @@ for r in filereader:
     datere = re.compile('(\d+/\d+/\d+)')
     entrydate = datere.search(tIn).group(1)
     #print('entrydate:  ',entrydate)
-    fdict['date'] = entrydate
-    fdict['action']    = 'hours'
+    fdict['date']     = entrydate
+    fdict['action']   = 'hours'
     fdict['id']       = invoiceNUM
-    fdict['owner_id'] = customerNUM   # beuss gilbert hack
+    fdict['owner_id'] = customerNUM
     fdict['desc']     = Desc
     fdict['quantity'] = Dur
     fdict['price']    = Rate
