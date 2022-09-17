@@ -73,40 +73,63 @@ next(filereader)   # skip header
 
 FIRSTROWFLAG = True
 nrows = 0
+
+# information and debug:
+#for i in range(len(fieldnames)):
+#   print('{:15} | {:}'.format(fieldnames[i],fielddefs[i]))
+
+# This field dictionary will hold each record
+fdict = {}
+# make at least an empty entry for each gnucash field
+for f in fieldnames:
+    fdict[f] = ''
+
+# use this to parse dates
+datere = re.compile('(\d+/\d+/\d+) (\d+:\d+ [A,P]M)')
+prevdate = 'x'
+serial = 0
 for r in filereader: 
     nrows += 1
     job = r[0]     ##   customize here for different input file formats
-    tIn = r[1]
-    tOut = r[2]
-    Dur = r[3]
-    Rate = r[4]
-    Desc = r[6]
-    miles = r[9]
+    tIn = r[1]     # time in
+    tOut = r[2]    # time out
+    Dur = r[3]     # duration (hrs)
+    Rate = r[4]    # $/hr
+    Desc = r[6]    # description of work
+    miles = r[9]   # auto miles driven
+
+    # we have to use this trick for filename generation because
+    #  'job' title is not known prior to reading first row!
     if FIRSTROWFLAG:
-        outfilename = job + '_Inv'+ str(invoiceNUM) + '.csv'    
-        fd = open(outfilename,'w')   
+        # set up an output .csv file
+        outfilename = job + '_Inv'+ str(invoiceNUM) + '.csv'
+        fd = open(outfilename,'w')
         output = csv.writer(fd, delimiter=';',quotechar='"')
         FIRSTROWFLAG = False
-    #for i in range(len(fieldnames)):
-        #print('{:15} | {:}'.format(fieldnames[i],fielddefs[i]))
-    fdict = {}
-    for f in fieldnames:
-        fdict[f] = ''
+
 
     # populate an output row
-    datere = re.compile('(\d+/\d+/\d+)')
     entrydate = datere.search(tIn).group(1)
+    entrytime = datere.search(tIn).group(2)
+    #print('Debug: '+entrytime)
+
     #print('entrydate:  ',entrydate)
     fdict['date']     = entrydate
     fdict['action']   = 'hours'
     fdict['id']       = invoiceNUM
     fdict['owner_id'] = customerNUM
-    fdict['desc']     = Desc
+    # help gnucash sort multiple entries in single date
+    description = ': ' + Desc
+    fdict['desc'] = entrytime.rjust(8,'0') + description
+    #if entrydate != prevdate:
+        #serial = 0
+        #fdict['desc']     = description
+    #else:
+        #fdict['desc']     = str(serial) + ' ' + description
     fdict['quantity'] = Dur
     fdict['price']    = Rate
     fdict['account']  = 'Income:Sales'
     
-
     row = []
     for n in fieldnames:
         row.append(fdict[n])
@@ -114,6 +137,7 @@ for r in filereader:
     #    Write the output file 
     #
     output.writerow(row)
+    prevdate = entrydate
     
 ## Check for correct output ??
 #for i,n in enumerate(fieldnames):
