@@ -1,0 +1,11 @@
+Job,Clocked In,Clocked Out,Duration,Hourly Rate,Earnings,Comment,Tags,Breaks,Adjustments,Mileage
+JobName,1/6/2022 2:12 PM,1/6/2022 2:22 PM,0.17,650,108.33,Phone call with David ,,,,
+JobName,2/6/2022 7:52 PM,2/6/2022 8:08 PM,0.27,650,173.33,Look at inspection protocol agreement. ,,,,
+JobName,2/7/2022 9:04 AM,2/7/2022 9:27 AM,0.38,650,249.17,Check coverage in specification for magnetic field,,,,
+JobName,2/8/2022 9:30 AM,2/8/2022 9:50 AM,0.33,650,216.67,Call with Bob regarding magnetic field,,,,
+JobName,2/9/2022 6:10 PM,2/9/2022 6:27 PM,0.28,650,184.17,Request clarification on report workflow,,,,
+JobName,2/14/2022 1:46 PM,2/14/2022 1:50 PM,0.07,650,43.33,Leave msg for Alexis,,,,
+JobName,2/14/2022 2:40 PM,2/14/2022 2:49 PM,0.15,650,97.5,Call with Alexis ,,,,
+JobName,2/15/2022 10:05 AM,2/15/2022 10:17 AM,0.2,650,130,Call re. new position/potential conflict.,,,,
+JobName,2/23/2022 8:20 AM,2/23/2022 8:30 AM,0.17,650,108.33,Case review prior to trip ,,,,
+JobName,2/23/2022 9:32 AM,2/23/2022 10:06 AM,0.57,650,368.33, Review infringement contentions,,,,
