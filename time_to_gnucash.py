@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 
 import csv
+import datetime as dt
+from dateutil import parser
+
 import sys
 import regex as re
 ''' A program to convert time record exports from phone-based time-keeper
@@ -61,6 +64,13 @@ for i,f in enumerate(fieldinfo):
 ##########    end of output fields work
 
 
+#   get a date to screen out old entries from log file
+ds = input('Please enter oldest record date ("x" for none):')
+if ds == 'x':
+    d_earliest = parser.parse('01-Jan-1900')
+else:
+    d_earliest = parser.parse(ds)
+
 #
 #    Read input data
 #
@@ -98,6 +108,12 @@ for r in filereader:
     Desc = r[6]    # description of work
     miles = r[9]   # auto miles driven
 
+    # understand the date of this entry
+    entrydate = datere.search(tIn).group(1)
+    entrytime = datere.search(tIn).group(2)
+
+    if parser.parse(entrydate) < d_earliest:
+        continue  # ignore before starting date
     # we have to use this trick for filename generation because
     #  'job' title is not known prior to reading first row!
     if FIRSTROWFLAG:
@@ -109,8 +125,6 @@ for r in filereader:
 
 
     # populate an output row
-    entrydate = datere.search(tIn).group(1)
-    entrytime = datere.search(tIn).group(2)
     #print('Debug: '+entrytime)
 
     #print('entrydate:  ',entrydate)
